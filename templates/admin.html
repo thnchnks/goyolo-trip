@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GoYolo Trip - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f5f8f2;
+            color: #26352a;
+        }
+        h1, h2 { color: #278044; }
+        .table-wrap {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 750px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e6e9e4;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #eaf6e8; }
+        input, select, button {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccd5ca;
+        }
+        button {
+            background: #278044;
+            color: white;
+            cursor: pointer;
+        }
+        a { color: #278044; }
+        .slip { max-width: 100px; }
+    </style>
+</head>
+<body>
+    <h1>GoYolo Trip — Admin Dashboard</h1>
+    <p>สวัสดี {{ session.get('username') }} |
+       <a href="{{ url_for('home') }}">กลับหน้าแรก</a>
+    </p>
+
+    <h2>บัญชีผู้ใช้</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>อีเมล</th>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>วันที่สมัคร</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.created_at }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5">ยังไม่มีบัญชีผู้ใช้</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>รายการจองและตรวจสอบสลิป</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>รหัสจอง</th>
+                    <th>บัญชีผู้จอง</th>
+                    <th>ทริป</th>
+                    <th>ข้อมูลการเดินทาง</th>
+                    <th>ยอดรวม</th>
+                    <th>สลิป</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in bookings %}
+                <tr>
+                    <td>{{ trip.id }}<br>{{ trip.code }}</td>
+                    <td>
+                        {{ trip.account_username }}<br>
+                        {{ trip.account_email }}<br>
+                        {{ trip.name }}<br>
+                        {{ trip.phone }}
+                    </td>
+                    <td>
+                        {{ trip.tour_name }}<br>
+                        {{ trip.province }}
+                    </td>
+                    <td>
+                        {{ trip.start_date }} – {{ trip.end_date or '-' }}<br>
+                        {{ trip.travelers }} คน<br>
+                        ที่พัก: {{ trip.hotel_name or 'ไม่มี' }}
+                    </td>
+                    <td>{{ "%.2f"|format(trip.total) }} บาท</td>
+                    <td>
+                        {% if trip.slip_filename %}
+                        <a href="{{ url_for(
+                            'admin_slip',
+                            filename=trip.slip_filename
+                        ) }}" target="_blank" rel="noopener">
+                            เปิดดูสลิป
+                        </a>
+                        {% else %}
+                        ไม่มีไฟล์
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST"
+                              action="{{ url_for(
+                                  'admin_update_status',
+                                  booking_id=trip.id
+                              ) }}">
+                            <select name="status">
+                                {% for status in statuses %}
+                                <option value="{{ status }}"
+                                    {% if status == trip.status %}
+                                    selected
+                                    {% endif %}>
+                                    {{ status }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">บันทึก</button>
+                        </form>
+                        <p>{{ trip.status }}</p>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7">ยังไม่มีรายการจอง</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

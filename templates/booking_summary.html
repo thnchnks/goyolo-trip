@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปการจอง | GoYolo Trip</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan",sans-serif;
+            background: #f5f8ef;
+            color: #203126;
+        }
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            border-bottom: 1px solid #e7eadf;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 900;
+            color: #285b36;
+            text-decoration: none;
+        }
+
+        .brand span { color: #ff873d; }
+
+        main {
+            max-width: 760px;
+            margin: 35px auto;
+            padding: 0 16px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 12px 34px rgba(33,67,43,.09);
+        }
+
+        h1 { margin-top: 0; }
+
+        .success {
+            background: #f0f8e5;
+            color: #285b36;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            border-bottom: 1px solid #e7eadf;
+            padding: 15px 0;
+        }
+
+        .section h3 {
+            margin: 0 0 12px;
+            color: #285b36;
+        }
+
+        .line {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 10px 0;
+        }
+
+        .line span:last-child {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .total {
+            color: #285b36;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #68756a;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button, .back {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .confirm {
+            background: #ff873d;
+            color: white;
+        }
+
+        .back {
+            background: #edf2e8;
+            color: #285b36;
+        }
+
+        @media (max-width: 520px) {
+            .panel { padding: 20px; }
+            .buttons { grid-template-columns: 1fr; }
+            .line { gap: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a class="brand" href="/"><span>Go</span>Yolo Trip</a>
+</header>
+
+<main>
+    <section class="panel">
+        <h1>สรุปข้อมูลการจอง</h1>
+
+        <div class="success">
+            <strong>ตรวจสอบข้อมูลก่อนยืนยัน</strong>
+            <div>กรุณาตรวจสอบรายละเอียดและยอดรวมให้ถูกต้อง</div>
+        </div>
+
+        <div class="section">
+            <h3>ข้อมูลทริป</h3>
+            <div class="line">
+                <span>รหัสทริป</span>
+                <span>{{ code }}</span>
+            </div>
+            <div class="line">
+                <span>จังหวัด</span>
+                <span>{{ tour.province }}</span>
+            </div>
+            <div class="line">
+                <span>แพ็กเกจ</span>
+                <span>{{ tour.name }}</span>
+            </div>
+            <div class="line">
+                <span>จำนวนผู้เดินทาง</span>
+                <span>{{ travelers }} คน</span>
+            </div>
+            <div class="line">
+                <span>วันเริ่มเดินทาง</span>
+                <span>{{ start_date }}</span>
+            </div>
+            <div class="line">
+                <span>วันสิ้นสุดการเดินทาง</span>
+                <span>{{ end_date }}</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>ข้อมูลผู้จอง</h3>
+            <div class="line">
+                <span>ชื่อ–นามสกุล</span>
+                <span>{{ name }}</span>
+            </div>
+            <div class="line">
+                <span>เบอร์โทรศัพท์</span>
+                <span>{{ phone }}</span>
+            </div>
+        </div>
+
+        {% if hotel %}
+        <div class="section">
+            <h3>ข้อมูลที่พัก</h3>
+            <div class="line">
+                <span>โรงแรม</span>
+                <span>{{ hotel.name }}</span>
+            </div>
+
+            {% if single_rooms > 0 %}
+            <div class="line">
+                <span>ห้องเดี่ยว {{ single_rooms }} ห้อง</span>
+                <span>
+                    {{ "{:,.0f}".format(single_rooms * hotel.single * nights) }} บาท
+                </span>
+            </div>
+            {% endif %}
+
+            {% if double_rooms > 0 %}
+            <div class="line">
+                <span>ห้องคู่ {{ double_rooms }} ห้อง</span>
+                <span>
+                    {{ "{:,.0f}".format(double_rooms * hotel.double * nights) }} บาท
+                </span>
+            </div>
+            {% endif %}
+
+            <div class="line">
+                <span>จำนวนคืน</span>
+                <span>{{ nights }} คืน</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="section">
+            <h3>สรุปค่าใช้จ่าย</h3>
+            <div class="line">
+                <span>ราคาแพ็กเกจต่อทริป</span>
+                <span>{{ "{:,.0f}".format(trip_total) }} บาท</span>
+            </div>
+            <div class="line">
+                <span>ค่าที่พัก</span>
+                <span>{{ "{:,.0f}".format(hotel_total) }} บาท</span>
+            </div>
+            <div class="line total">
+                <span>ยอดรวมทั้งหมด</span>
+                <span>{{ "{:,.0f}".format(total) }} บาท</span>
+            </div>
+            <p class="note">
+                ราคาแพ็กเกจเป็นราคาเหมาจ่ายต่อทริป ไม่ได้คูณตามจำนวนผู้เดินทาง
+            </p>
+        </div>
+
+        <div class="buttons">
+            <a class="back" href="{{ url_for('booking', tour=code) }}">
+                ← กลับไปแก้ไขข้อมูล
+            </a>
+
+        <form method="POST" action="{{ url_for('payment') }}">
+            <button class="confirm" type="submit">
+                ยืนยันข้อมูลและไปชำระเงิน
+            </button>
+        </form>
+
+        </div>
+    </section>
+</main>
+</body>
+</html>

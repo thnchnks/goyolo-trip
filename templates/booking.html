@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองทริป | GoYolo Trip</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan",sans-serif;
+            background: #f5f8ef;
+            color: #203126;
+        }
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            border-bottom: 1px solid #e7eadf;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 900;
+            color: #285b36;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #ff873d;
+        }
+
+        main {
+            max-width: 760px;
+            margin: 35px auto;
+            padding: 0 16px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 12px 34px rgba(33, 67, 43, .09);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .tour {
+            background: #f0f8e5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .tour h3 {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #285b36;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .note {
+            color: #657267;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 16px 0 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d8dfd2;
+            border-radius: 9px;
+            font-size: 16px;
+            background: white;
+            color: #203126;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid #b8d69e;
+            border-color: #67945b;
+        }
+
+        .rooms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        button {
+            margin-top: 24px;
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            border-radius: 10px;
+            background: #ff873d;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ee762c;
+        }
+
+        .error {
+            background: #fff0ee;
+            color: #a32920;
+            padding: 12px;
+            border-radius: 9px;
+            margin-bottom: 16px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 18px;
+            color: #285b36;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 520px) {
+            .rooms {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .panel {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a class="brand" href="/"><span>Go</span>Yolo Trip</a>
+</header>
+
+<main>
+    <section class="panel">
+        <h1>ข้อมูลการจองทริป</h1>
+        <p>กรอกข้อมูลผู้จอง วันที่เดินทาง และเลือกที่พักที่ต้องการ</p>
+
+        <div class="tour">
+            <strong>{{ code }} · {{ tour.province }}</strong>
+
+            <h3>{{ tour.name }}</h3>
+
+            <p class="price">
+                ราคาแพ็กเกจ {{ "{:,.0f}".format(tour.price|float) }} บาท/ทริป
+            </p>
+
+            <p>ระยะเวลา {{ tour.days }} วัน</p>
+
+            </p>
+        </div>
+
+        {% if error %}
+            <div class="error" role="alert">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('booking') }}">
+            <input type="hidden" name="tour" value="{{ code }}">
+
+            <label for="name">ชื่อ–นามสกุลผู้จอง</label>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                maxlength="100"
+                autocomplete="name"
+                placeholder="กรอกชื่อและนามสกุล"
+                value="{{ request.form.get('name', '') }}"
+            >
+
+            <label for="phone">เบอร์โทรศัพท์</label>
+            <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                maxlength="10"
+                minlength="9"
+                pattern="[0-9]{9,10}"
+                inputmode="numeric"
+                autocomplete="tel"
+                placeholder="กรอกเบอร์โทรศัพท์"
+                value="{{ request.form.get('phone', '') }}"
+            >
+
+            <label for="travelers">จำนวนผู้เดินทาง (1–5 คน)</label>
+            <input
+                id="travelers"
+                name="travelers"
+                type="number"
+                min="1"
+                max="5"
+                value="{{ request.form.get('travelers', 1) }}"
+                required
+            >
+
+            <label for="start_date">วันที่เริ่มเดินทาง</label>
+            <input
+                id="start_date"
+                name="start_date"
+                type="date"
+                min="{{ now_date }}"
+                value="{{ request.form.get('start_date', '') }}"
+                required
+            >
+
+            {% if tour.hotels %}
+                <label for="hotel_index">เลือกที่พัก</label>
+
+                <select id="hotel_index" name="hotel_index" required>
+                    {% for hotel in tour.hotels %}
+                        <option
+                            value="{{ loop.index0 }}"
+                            {% if request.form.get('hotel_index', '0')|int == loop.index0 %}selected{% endif %}
+                        >
+                            {{ hotel.name }}
+                            — เตียงเดี่ยว {{ "{:,.0f}".format(hotel.single|float) }} บาท/ห้อง/คืน
+                            — เตียงคู่ {{ "{:,.0f}".format(hotel.double|float) }} บาท/ห้อง/คืน
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <div class="rooms">
+                    <div>
+                        <label for="single_rooms">จำนวนห้องเตียงเดี่ยว</label>
+                        <input
+                            id="single_rooms"
+                            name="single_rooms"
+                            type="number"
+                            min="0"
+                            max="5"
+                            value="{{ request.form.get('single_rooms', 0) }}"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label for="double_rooms">จำนวนห้องเตียงคู่</label>
+                        <input
+                            id="double_rooms"
+                            name="double_rooms"
+                            type="number"
+                            min="0"
+                            max="5"
+                            value="{{ request.form.get('double_rooms', 1) }}"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <p class="note">
+                    ราคาที่พักคิดตามประเภทห้องและจำนวนคืน
+                    ระบบจะคำนวณยอดรวมในหน้าสรุปการจอง
+                </p>
+            {% endif %}
+
+            <button type="submit">ตรวจสอบข้อมูลและสรุปค่าใช้จ่าย</button>
+        </form>
+
+        <a class="back" href="javascript:history.back()">← กลับไปเลือกทริป</a>
+    </section>
+</main>
+</body>
+</html>

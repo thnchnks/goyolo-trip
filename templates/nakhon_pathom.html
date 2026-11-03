@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ทริปนครปฐม | GoYolo Trip</title>
+<style>
+:root{--green:#b9f36b;--green-dark:#285b36;--orange:#ff873d;--ink:#203126;--muted:#68766b;--cream:#fffdf7;--line:#e7eadf;--white:#fff;--shadow:0 12px 34px rgba(33,67,43,.09)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:"Anuphan",sans-serif;line-height:1.65}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{width:min(1120px,92%);margin:auto}
+header {
+            background: #ffffff;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5ebdf;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #75bd29;
+        }
+
+        .logo span {
+            color: #f28a28;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+        }
+
+        nav a {
+            color: #285d39;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #f28a28;
+        }
+        
+.brand{font-size:1.45rem;font-weight:900;letter-spacing:-.7px}
+.brand span{color:var(--green-dark)}
+.brand b{color:var(--orange)}
+.navlinks{display:flex;align-items:center;gap:22px;font-size:.95rem}
+.navlinks a:hover{color:var(--green-dark)}
+.navbtn{background:var(--orange);border:0;padding:10px 17px;border-radius:999px;font-weight:800;color:#fff}
+.hero{padding:58px 0 42px;background:radial-gradient(circle at 85% 10%,#e8f9c9 0,transparent 30%),linear-gradient(135deg,#f8ffe9,#fff8ef)}
+.eyebrow{display:inline-block;padding:6px 12px;background:#e8f8d5;color:var(--green-dark);font-weight:800;border-radius:999px;font-size:.85rem}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.2;margin:16px 0 12px;letter-spacing:-1px}
+.hero p{max-width:690px;color:var(--muted);font-size:1.05rem;margin:0}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pill{background:white;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:.9rem}
+.section{padding:48px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}
+.section h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.3;margin:0}
+.section-head p{margin:8px 0 0;color:var(--muted)}
+.tour-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.tour-card{background:white;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.tour-banner{min-height:185px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,#d9f6ad,#fff0db)}
+.tour-card:nth-child(2) .tour-banner{background:linear-gradient(135deg,#d8efff,#fce4d5)}
+.tour-code{font-size:.82rem;font-weight:900;letter-spacing:1px;color:var(--green-dark)}
+.tour-banner h3{font-size:1.65rem;line-height:1.3;margin:12px 0 4px}
+.tour-banner p{margin:0;color:#526458}
+.tour-body{padding:22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#f5f7ef;border-radius:9px;padding:5px 9px;font-size:.83rem}
+.summary{margin:0;color:#536257}
+.tour-info{display:grid;gap:9px;padding:14px;background:#fbfcf7;border-radius:14px;font-size:.92rem}
+.tour-info strong{color:var(--green-dark)}
+.price-row{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.price{font-size:1.45rem;font-weight:900;color:var(--green-dark)}
+.price small{display:block;font-size:.78rem;color:var(--muted);font-weight:400}
+.book{border:0;background:var(--orange);color:white;border-radius:12px;padding:12px 18px;font-weight:900;white-space:nowrap}
+.book:hover,.navbtn:hover{filter:brightness(.96);transform:translateY(-1px)}
+.itinerary{background:#f4f8ec}
+.day-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.day-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.day-card h3{margin:0 0 16px;font-size:1.25rem}
+.stop{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.time{font-weight:900;color:var(--green-dark);font-size:.9rem}
+.stop p{margin:3px 0 0;color:var(--muted);font-size:.92rem}
+.note{padding:14px 16px;background:#fff4e9;border-radius:14px;color:#79512e;font-size:.9rem;margin-top:18px}
+.hotel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.hotel{border:1px solid var(--line);background:#fff;border-radius:18px;padding:20px}
+.hotel h3{margin:0 0 6px}
+.hotel p{margin:0;color:var(--muted)}
+.hotel-rate{font-weight:900;color:var(--green-dark);margin-top:12px}
+.fineprint{font-size:.85rem;color:var(--muted);margin-top:14px}
+@media(max-width:760px){
+.nav{height:auto;min-height:70px;flex-wrap:wrap;padding:12px 0}
+.navlinks{gap:12px;flex-wrap:wrap;font-size:.88rem}
+.tour-grid,.day-grid,.hotel-grid{grid-template-columns:1fr}
+.section-head{display:block}
+.section-head .pill{display:inline-block;margin-top:12px}
+.hero{padding-top:42px}
+.price-row{align-items:center}
+.tour-banner{min-height:160px}
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Goyolo <span>Trip!</span></div>
+
+    <nav>
+        <a href="/">🏡 Homepage</a>
+    </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">GOYOLO DESTINATION · NAKHON PATHOM</span>
+    <h1>นครปฐม<br>เมืองเก่า เสน่ห์อาหารและวิถีชุมชน</h1>
+    <p>ออกไปสัมผัสเสน่ห์นครปฐม เมืองแห่งองค์พระปฐมเจดีย์ ตลาดเก่า อาหารอร่อย คาเฟ่บรรยากาศดี และแหล่งท่องเที่ยวทางวัฒนธรรม พร้อมโปรแกรมเที่ยวที่มีไกด์ดูแลตลอดทริป</p>
+    <div class="hero-meta">
+      <span class="pill">📍 จังหวัดนครปฐม</span>
+      <span class="pill">🧭 มีไกด์นำเที่ยว</span>
+      <span class="pill">👥 ไกด์ 1 คนต่อผู้เดินทางไม่เกิน 5 คน</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tours">
+<div class="wrap">
+  <div class="section-head">
+    <div>
+      <h2>เลือกทริปที่ใช่สำหรับคุณ</h2>
+      <p>ไหว้พระ ชิมของอร่อยในหนึ่งวัน หรือใช้เวลาสองวันสำรวจเมืองเก่าและธรรมชาติ</p>
+    </div>
+    <span class="pill">2 โปรแกรม · นครปฐม</span>
+  </div>
+
+  <div class="tour-grid">
+
+    <article class="tour-card">
+      <div class="tour-banner">
+        <div class="tour-code">NPT-01 · DAY TRIP</div>
+        <div>
+          <h3>ไหว้พระปฐมเจดีย์ ตะลุยกินเมืองนครปฐม</h3>
+          <p>องค์พระปฐมเจดีย์ · พระราชวังสนามจันทร์ · ตลาดท้องถิ่น</p>
+        </div>
+      </div>
+      <div class="tour-body">
+        <div class="chips">
+          <span class="chip">1 วัน</span>
+          <span class="chip">ไม่รวมที่พัก</span>
+          <span class="chip">นัดพบที่องค์พระปฐมเจดีย์</span>
+        </div>
+        <p class="summary">เที่ยวแลนด์มาร์กสำคัญของนครปฐม ชมองค์พระปฐมเจดีย์และสถานที่ทางประวัติศาสตร์ ก่อนเดินชิมอาหารและขนมขึ้นชื่อของเมือง เหมาะกับคนที่อยากเที่ยวแบบสบาย ๆ และได้ทั้งความรู้กับความอร่อยในวันเดียว</p>
+        <div class="tour-info">
+          <div><strong>จุดนัดพบและส่งกลับ:</strong> บริเวณองค์พระปฐมเจดีย์ โดยนัดจุดที่แน่นอนก่อนเดินทาง</div>
+          <div><strong>มื้ออาหาร:</strong> อาหารกลางวันตามกำหนดการ</div>
+          <div><strong>เหมาะกับ:</strong> สายไหว้พระ ประวัติศาสตร์ อาหารท้องถิ่น และถ่ายภาพ</div>
+        </div>
+        <div class="price-row">
+          <div class="price">1,200 บาท<small>ต่อคน</small></div>
+          <button class="book" onclick="bookTour('NPT-01')">จองทริป</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tour-card">
+      <div class="tour-banner">
+        <div class="tour-code">NPT-02 · 2 DAYS 1 NIGHT</div>
+        <div>
+          <h3>นครปฐมมุมใหม่ ตลาดเก่า คาเฟ่และธรรมชาติ</h3>
+          <p>เมืองเก่า · คาเฟ่ · ตลาดท้องถิ่น · แหล่งพักผ่อน</p>
+        </div>
+      </div>
+      <div class="tour-body">
+        <div class="chips">
+          <span class="chip">2 วัน 1 คืน</span>
+          <span class="chip">มีที่พักให้เลือก</span>
+          <span class="chip">นัดพบในตัวเมืองนครปฐม</span>
+        </div>
+        <p class="summary">ใช้เวลาสองวันเที่ยวให้ครบทั้งสถานที่สำคัญ ตลาดเก่า คาเฟ่ และพื้นที่ธรรมชาติในจังหวัดนครปฐม เหมาะกับคนที่อยากพักผ่อน ถ่ายรูป ชิมอาหาร และเที่ยวแบบไม่ต้องรีบกลับภายในวันเดียว</p>
+        <div class="tour-info">
+          <div><strong>จุดนัดพบ:</strong> บริเวณองค์พระปฐมเจดีย์หรือจุดนัดหมายในตัวเมืองที่ตกลงกันล่วงหน้า</div>
+          <div><strong>ที่พัก:</strong> เลือกที่พักในส่วนรายละเอียดที่พักด้านล่าง</div>
+          <div><strong>เหมาะกับ:</strong> สายคาเฟ่ ถ่ายรูป ชิมอาหาร วัฒนธรรม และพักผ่อน</div>
+        </div>
+        <div class="price-row">
+          <div class="price">1,900 บาท<small>ต่อคน ไม่รวมค่าที่พัก</small></div>
+          <button class="book" onclick="bookTour('NPT-02')">จองทริป</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>
+</section>
+
+<section class="section itinerary" id="itinerary">
+<div class="wrap">
+  <div class="section-head">
+    <div>
+      <h2>กำหนดการเดินทาง</h2>
+      <p>เที่ยวตามเส้นทางที่วางแผนไว้ พร้อมไกด์นำเที่ยวตลอดโปรแกรม</p>
+    </div>
+  </div>
+
+  <div class="day-grid">
+
+    <div class="day-card">
+      <h3>🗓️ NPT-01 · ทริป 1 วัน</h3>
+
+      <div class="stop">
+        <div class="time">08:30</div>
+        <div><strong>นัดพบที่องค์พระปฐมเจดีย์</strong><p>เช็กชื่อสมาชิก พบไกด์ และเตรียมเริ่มโปรแกรมเที่ยว</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">09:00</div>
+        <div><strong>องค์พระปฐมเจดีย์</strong><p>สักการะพระร่วงโรจนฤทธิ์และชมพระเจดีย์ขนาดใหญ่ที่เป็นสัญลักษณ์ของนครปฐม</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">10:30</div>
+        <div><strong>เดินชมย่านเมืองเก่า</strong><p>สำรวจร้านค้าและชุมชนรอบองค์พระปฐมเจดีย์ พร้อมเลือกซื้อของฝากท้องถิ่น</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">11:30</div>
+        <div><strong>อาหารกลางวันในตัวเมือง</strong><p>ลิ้มลองอาหารท้องถิ่นและเมนูขึ้นชื่อของนครปฐม</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">13:00</div>
+        <div><strong>พระราชวังสนามจันทร์</strong><p>ชมบริเวณพระราชวังและสถาปัตยกรรมที่สะท้อนเรื่องราวทางประวัติศาสตร์ โดยตรวจสอบพื้นที่เปิดให้เข้าชมก่อนเดินทาง</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">14:30</div>
+        <div><strong>คาเฟ่หรือร้านขนมท้องถิ่น</strong><p>พักผ่อนและเลือกชิมเครื่องดื่มหรือขนมในย่านเมืองนครปฐม</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">15:30</div>
+        <div><strong>ตลาดท้องถิ่นและของฝาก</strong><p>เลือกซื้อขนมและของฝากก่อนสิ้นสุดโปรแกรม</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">16:30</div>
+        <div><strong>สิ้นสุดโปรแกรม</strong><p>ตรวจนับสมาชิกและส่งกลับบริเวณจุดนัดหมาย</p></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <h3>🗓️ NPT-02 · 2 วัน 1 คืน</h3>
+
+      <div class="stop">
+        <div class="time">วัน 1 · 09:00</div>
+        <div><strong>นัดพบในตัวเมืองนครปฐม</strong><p>พบไกด์ ตรวจสอบสมาชิก และเริ่มโปรแกรมเที่ยว</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">10:00</div>
+        <div><strong>องค์พระปฐมเจดีย์</strong><p>สักการะสิ่งศักดิ์สิทธิ์และเรียนรู้ประวัติความเป็นมาของแลนด์มาร์กสำคัญประจำจังหวัด</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">11:30</div>
+        <div><strong>ตลาดและร้านอาหารในตัวเมือง</strong><p>เดินเลือกชิมอาหารและขนมท้องถิ่นตามความสนใจ</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">12:30</div>
+        <div><strong>อาหารกลางวัน</strong><p>พักรับประทานอาหารและเตรียมเดินทางไปยังสถานที่ถัดไป</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">14:00</div>
+        <div><strong>พระราชวังสนามจันทร์</strong><p>ชมสถาปัตยกรรมและบรรยากาศพื้นที่ประวัติศาสตร์ตามการเปิดให้เข้าชม</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">16:00</div>
+        <div><strong>คาเฟ่และพักผ่อน</strong><p>เลือกคาเฟ่ในพื้นที่เพื่อพักเหนื่อยและถ่ายภาพ</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">18:00</div>
+        <div><strong>เช็กอินที่พัก</strong><p>เข้าพักในนครปฐมและพักผ่อนตามอัธยาศัย</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">วัน 2 · 09:00</div>
+        <div><strong>ออกเดินทางจากที่พัก</strong><p>รับประทานอาหารเช้าและพบไกด์ตามเวลานัดหมาย</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">10:00</div>
+        <div><strong>ตลาดน้ำดอนหวาย</strong><p>เดินชมตลาดริมแม่น้ำ เลือกซื้ออาหารและขนมท้องถิ่น พร้อมสัมผัสบรรยากาศชุมชน</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">12:00</div>
+        <div><strong>อาหารกลางวัน</strong><p>เลือกชิมอาหารในตลาดและพักผ่อนตามอัธยาศัย</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">13:30</div>
+        <div><strong>คาเฟ่หรือแหล่งพักผ่อนในพื้นที่</strong><p>พักผ่อน ถ่ายรูป และใช้เวลาช่วงบ่ายก่อนเดินทางกลับ</p></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">16:00</div>
+        <div><strong>สิ้นสุดโปรแกรม</strong><p>ส่งกลับจุดสิ้นสุดที่ตกลงไว้กับผู้จัดทริป</p></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    โปรแกรมอาจปรับเปลี่ยนตามสภาพอากาศ เวลาเปิดให้บริการ และความเหมาะสมของการเดินทาง
+  </div>
+</div>
+</section>
+
+<section class="section" id="stay">
+<div class="wrap">
+  <div class="section-head">
+    <div>
+      <h2>ที่พักแนะนำในนครปฐม</h2>
+      <p>เลือกที่พักให้เหมาะกับเส้นทางและสไตล์การเดินทางของคุณ</p>
+    </div>
+  </div>
+
+  <div class="hotel-grid">
+
+    <div class="hotel">
+      <h3>เอ็กซ์ทู นครปฐม (X2 Nakhon Pathom)</h3>
+      <p>ที่พักในจังหวัดนครปฐม เหมาะสำหรับผู้ที่ต้องการพักผ่อนในบรรยากาศสบาย ๆ และเดินทางไปเที่ยวในตัวเมือง</p>
+      <div class="hotel-rate">1,500 บาท/ห้อง/คืน</div>
+    </div>
+
+    <div class="hotel">
+      <h3>โรงแรมไมด้า ทวารวดี แกรนด์ นครปฐม</h3>
+      <p>โรงแรมในตัวเมืองนครปฐม มีสิ่งอำนวยความสะดวกสำหรับผู้เข้าพัก และเหมาะสำหรับการเดินทางไปยังองค์พระปฐมเจดีย์และสถานที่สำคัญในเมือง</p>
+      <div class="hotel-rate">1,800 บาท/ห้อง/คืน</div>
+    </div>
+
+    <div class="hotel">
+      <h3>NPT-01 · ทริป 1 วัน</h3>
+      <p>โปรแกรมไหว้พระและเที่ยวเมืองนครปฐมแบบไปเช้าเย็นกลับ</p>
+      <div class="hotel-rate">ไม่รวมค่าที่พัก</div>
+    </div>
+
+    <div class="hotel">
+      <h3>NPT-02 · 2 วัน 1 คืน</h3>
+      <p>โปรแกรมเที่ยวนครปฐมสองวัน สามารถเลือกพักที่ X2 Nakhon Pathom หรือโรงแรมไมด้า ทวารวดี แกรนด์ นครปฐมได้</p>
+      <div class="hotel-rate">ค่าที่พักคิดแยกจากค่าทริป</div>
+    </div>
+
+  </div>
+
+  <p class="fineprint">
+    Twin = เตียงเดี่ยว 2 เตียงในห้องเดียว · Double = เตียงใหญ่ 1 เตียงในห้องเดียว
+  </p>
+</div>
+</section>
+</main>
+
+<script>
+function bookTour(code){
+  window.location.href = '/booking?tour=' + encodeURIComponent(code);
+}
+</script>
+
+</body>
+</html>

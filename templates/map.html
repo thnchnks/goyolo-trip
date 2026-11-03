@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Map | Goyolo Trip!</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan", sans-serif;
+            background: #fffaf2;
+            color: #285d39;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5ebdf;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #75bd29;
+        }
+
+        .logo span {
+            color: #f28a28;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+        }
+
+        nav a {
+            color: #285d39;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #f28a28;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px 35px;
+            background: #fff0dc;
+        }
+
+        .eyebrow {
+            color: #e87716;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            margin: 12px 0;
+            font-size: clamp(30px, 5vw, 46px);
+            color: #285d39;
+        }
+
+        .hero p {
+            color: #697466;
+            font-size: 16px;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .province-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 35px 24px 65px;
+        }
+
+        .section-heading {
+            margin-bottom: 24px;
+        }
+
+        .section-heading h2 {
+            font-size: 24px;
+            margin-bottom: 7px;
+        }
+
+        .section-heading p {
+            color: #777d70;
+            margin-top: 0;
+        }
+
+        .province-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .province-card {
+            background: #ffffff;
+            border: 1px solid #e8ebdf;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(48, 78, 43, 0.07);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .province-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(48, 78, 43, 0.13);
+        }
+
+        .province-card img {
+            display: block;
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            background: #f2e9d8;
+        }
+
+        .card-content {
+            padding: 19px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eaf5e6;
+            color: #328047;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .card-content h3 {
+            margin: 13px 0 8px;
+            font-size: 22px;
+        }
+
+        .card-content p {
+            color: #70776c;
+            line-height: 1.75;
+            font-size: 14px;
+            min-height: 49px;
+            margin-bottom: 18px;
+        }
+
+        .explore-link {
+            display: inline-block;
+            background: #2f8548;
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            padding: 10px 15px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .explore-link:hover {
+            background: #246737;
+        }
+
+        @media (max-width: 850px) {
+            .province-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 560px) {
+            header {
+                padding: 16px 5%;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 18px;
+                flex-wrap: wrap;
+            }
+
+            .province-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .province-card img {
+                height: 210px;
+            }
+
+            .province-section {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Goyolo <span>Trip!</span></div>
+
+    <nav>
+        <a href="/">🏡 Homepage</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="eyebrow">GOYOLO TRIP! · EXPLORE</div>
+    <h1>วันนี้อยากเที่ยวแนวไหนดี?</h1>
+    <p>
+        ไม่ว่าจะสายคาเฟ่ สายกิจกรรม หรือสายธรรมชาติ<br>
+        เลือกจังหวัดที่ใช่ แล้วออกไปสร้างวันดี ๆ กัน!
+    </p>
+</section>
+
+<main class="province-section">
+    <div class="section-heading">
+        <h2>✨ เลือกสไตล์เที่ยวที่เป็นคุณ</h2>
+        <p>โปรดติดตามโปรแกรมใหม่ๆจากเราเร็วๆนี้!</p>
+    </div>
+
+    <div class="province-grid">
+
+        <article class="province-card">
+            <img src="https://metisgaia.net/wp-content/uploads/2023/03/Wat-Arun-Bangkok-sightseeing.jpg"
+                 alt="บรรยากาศเมืองกรุงเทพมหานคร">
+            <div class="card-content">
+                <span class="tag">🏙️ เมือง · คาเฟ่ · ช้อปปิ้ง</span>
+                <h3>กรุงเทพมหานคร</h3>
+                <p>เหมาะกับคนชอบเมืองที่มีชีวิตชีวา เดินย่านเก่า แวะคาเฟ่ และค้นหาร้านใหม่ ๆ</p>
+                <a class="explore-link" href="/bangkok">
+    สำรวจกรุงเทพฯ →
+</a>
+            </div>
+        </article>
+
+        <article class="province-card">
+            <img src="https://img.cnt.traveloka.com/tvlk/blog/2019/02/%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B9%80%E0%B8%81%E0%B8%A3%E0%B9%87%E0%B8%9401-800x534.jpg?tr=q-70,c-at_max,w-1000,h-600"
+                 alt="บรรยากาศชุมชนและสถาปัตยกรรมไทย">
+            <div class="card-content">
+                <span class="tag">🏺 ชุมชน · วิถีท้องถิ่น</span>
+                <h3>นนทบุรี</h3>
+                <p>เดินตลาดชุมชนริมน้ำ แวะเกาะเกร็ด ชมงานเครื่องปั้นดินเผาและลิ้มลองของกินท้องถิ่น</p>
+                <a class="explore-link" href="/nonthaburi">สำรวจนนทบุรี →</a>
+            </div>
+        </article>
+
+        <article class="province-card">
+            <img src="https://checkinchill.com/storage/content/ad503bbb-d6dd-481f-8008-9c898d2eae49.webp"
+                 alt="สวนสนุกและกิจกรรมวันหยุด">
+            <div class="card-content">
+                <span class="tag">🎡 กิจกรรม · สนุกกับเพื่อน</span>
+                <h3>ปทุมธานี</h3>
+                <p>เหมาะกับวันออกไปทำกิจกรรมสนุก ๆ เที่ยวสวนสนุก และหาพื้นที่พักผ่อนกับแก๊งเพื่อน</p>
+                <a class="explore-link" href="/pathum_thani">สำรวจปทุมธานี →</a>
+            </div>
+        </article>
+
+        <article class="province-card">
+            <img src="https://checkinchill.com/storage/content/9cb4c72f-d267-4797-9ef0-7114e2b7a2d2.webp"
+                 alt="สถาปัตยกรรมและวัฒนธรรมไทย">
+            <div class="card-content">
+                <span class="tag">🏛️ วัฒนธรรม · ประวัติศาสตร์</span>
+                <h3>สมุทรปราการ</h3>
+                <p>เที่ยวเมืองโบราณ ชมสถาปัตยกรรมไทย และเรียนรู้เรื่องราวของสถานที่สำคัญ</p>
+                <a class="explore-link" href="/samut_prakan">สำรวจสมุทรปราการ →</a>
+            </div>
+        </article>
+
+        <article class="province-card">
+            <img src="https://s359.kapook.com/pagebuilder/9361c974-7160-4135-8381-a48d55316734.jpg"
+                 alt="อาหารและตลาดท้องถิ่น">
+            <div class="card-content">
+                <span class="tag">🍜 ของกิน · ชุมชนชายฝั่ง</span>
+                <h3>สมุทรสาคร</h3>
+                <p>สัมผัสวิถีชุมชนประมง เดินตลาดท้องถิ่น และค้นหาอาหารทะเลขึ้นชื่อของจังหวัด</p>
+                <a class="explore-link" href="/samut_sakhon">สำรวจสมุทรสาคร →</a>
+            </div>
+        </article>
+
+        <article class="province-card">
+            <img src="https://img.thaicdn.net/u/2020/pattra/pattravel202008/shutterstock_517972276.jpg"
+                 alt="สถานที่ท่องเที่ยวและสถาปัตยกรรม">
+            <div class="card-content">
+                <span class="tag">🙏 ไหว้พระ · คาเฟ่ · ชิล ๆ</span>
+                <h3>นครปฐม</h3>
+                <p>ไหว้พระปฐมเจดีย์ เที่ยวตลาดท้องถิ่น และแวะคาเฟ่สำหรับทริปสบาย ๆ ในวันหยุด</p>
+                <a class="explore-link" href="/nakhon_pathom">สำรวจนครปฐม →</a>
+            </div>
+        </article>
+
+    </div>
+</main>
+
+</body>
+</html>

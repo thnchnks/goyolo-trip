@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goyolo Trip</title>
+
+<style>
+#mainMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 190px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #e5eee4;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+}
+#mainMenu.menu-open { display: block; }
+#mainMenu a {
+    display: block;
+    padding: 11px 14px;
+    color: #258044;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+#mainMenu a:hover {
+    background: #fff0dc;
+    color: #e87716;
+}
+.auth-btn {
+    display: inline-block;
+    background-color: #F28C28;
+    color: #FFFFFF;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    font-family: "Anuphan",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+.auth-btn:hover { background-color: #DE7415; color: #FFFFFF; }
+.user-name { color: #347447; font-weight: 600; }
+
+:root {
+    --green: #75bd29;
+    --dark-green: #28551d;
+    --orange: #ff792d;
+    --cream: #fffdf5;
+}
+* { box-sizing: border-box; }
+
+@font-face {
+    font-family: "Anuphan" ;
+    src: url("/static/uploads/fonts/Anuphan-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+}
+body {
+    margin: 0;
+    font-family: "Anuphan",sans-serif;
+    background: var(--cream);
+    color: var(--dark-green);
+}
+header {
+    height: 76px;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 3px 15px #24451a12;
+    position: relative;
+}
+.menu-button {
+    font-size: 26px;
+    border: 0;
+    background: #e9f8d8;
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.logo { font-size: 27px; font-weight: 900; color: var(--green); }
+.logo span { color: var(--orange); }
+nav {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 5%;
+    width: 250px;
+    padding: 12px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px #0002;
+}
+nav.open { display: grid; gap: 5px; }
+nav a {
+    text-decoration: none;
+    color: var(--dark-green);
+    padding: 13px;
+    border-radius: 10px;
+}
+nav a:hover { background: #eff9e6; }
+
+.hero { max-width: 1200px; margin: auto; padding: 40px 5%; }
+.eyebrow {
+    display: inline-block;
+    background: #e5f7c9;
+    padding: 9px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: bold;
+}
+h1 {
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.25;
+    margin: 20px 0 12px;
+}
+h1 span { color: var(--orange); }
+.intro { max-width: 720px; line-height: 1.9; color: #52664a; }
+.button {
+    display: inline-block;
+    padding: 14px 22px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 15px;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* สลได์ดชว์ */
+.gallery {
+    position: relative;
+    width: 100%;
+    max-width: 850px;
+    height: 380px;
+    margin: 30px auto;
+    overflow: hidden;
+    border-radius: 24px;
+}
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease;
+}
+.slide.active { opacity: 1; visibility: visible; }
+.slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+.caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    max-width: 75%;
+    padding: 12px 17px;
+    border-radius: 14px;
+    background: #ffffffed;
+    font-weight: bold;
+}
+.slide-controls {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    display: flex;
+    gap: 8px;
+}
+.slide-controls button {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--dark-green);
+    font-size: 24px;
+    cursor: pointer;
+}
+.dots { display: flex; justify-content: center; gap: 9px; padding: 15px; }
+.dot {
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border-radius: 50%;
+    background: #cbd5c3;
+    cursor: pointer;
+}
+.dot.active { background: var(--green); }
+
+section.info { background: white; padding: 45px 5%; }
+.info-inner { max-width: 1050px; margin: auto; }
+.section-title { font-size: clamp(28px, 4vw, 40px); }
+.values {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 28px;
+}
+.value { padding: 22px 17px; border-radius: 20px; background: #f2f9e9; }
+.value .emoji { font-size: 28px; }
+.value p { color: #52664a; font-size: 14px; line-height: 1.7; }
+.promise { background: var(--green); color: white; padding: 38px 5%; text-align: center; line-height: 1.9; }
+.promise p { max-width: 760px; margin: auto; }
+footer { padding: 22px; text-align: center; font-size: 13px; }
+
+@media (max-width: 700px) {
+    .values { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding-top: 28px; }
+}
+@media (max-width: 400px) {
+    .values { grid-template-columns: 1fr; }
+}
+
+/* ===== GoYolo Trip Introduction ===== */
+.gy-intro {
+    --gy-green: #258044;
+    --gy-dark: #174d2b;
+    --gy-orange: #ff8b24;
+    --gy-cream: #fff8ed;
+    --gy-muted: #68766b;
+    color: #283c2d;
+    font-family: "Anuphan",sans-serif;
+    line-height: 1.75;
+    overflow: hidden;
+}
+.gy-intro * { box-sizing: border-box; }
+.gy-intro a { text-decoration: none; }
+.gy-wrap { width: min(1120px, 92%); margin: 0 auto; }
+.gy-section { padding: 76px 0; }
+.gy-section.gy-soft { background: var(--gy-cream); }
+.gy-eyebrow {
+    display: inline-block;
+    color: var(--gy-green);
+    background: #e9f5e9;
+    border-radius: 30px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    margin-bottom: 14px;
+}
+.gy-heading {
+    color: var(--gy-dark);
+    font-size: clamp(27px, 4vw, 38px);
+    line-height: 1.3;
+    margin: 0 0 16px;
+    font-weight: 800;
+}
+.gy-description { color: var(--gy-muted); max-width: 760px; margin: 0 auto; font-size: 16px; }
+.gy-center { text-align: center; margin-bottom: 38px; }
+
+/* Hero */
+.gy-hero {
+    background:
+        radial-gradient(circle at 88% 15%, #ffdb9a 0, #ffdb9a 7%, transparent 7.3%),
+        linear-gradient(135deg, #f0faed, #fff2df);
+    padding: 78px 0;
+    position: relative;
+}
+.gy-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 38px;
+}
+.gy-hero h2 {
+    color: var(--gy-dark);
+    font-size: clamp(38px, 5.2vw, 60px);
+    line-height: 1.13;
+    margin: 0 0 22px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+.gy-hero h2 span { color: var(--gy-orange); }
+.gy-hero p { color: #536c59; font-size: 16px; margin: 0 0 20px; }
+.gy-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.gy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: 800;
+    transition: .2s ease;
+}
+.gy-btn-primary { background: var(--gy-orange); color: white !important; box-shadow: 0 5px 14px #f28c2830; }
+.gy-btn-primary:hover { background: #e87716; transform: translateY(-2px); }
+.gy-btn-secondary { border: 1px solid #b8cbb8; color: var(--gy-green) !important; background: white; }
+.gy-btn-secondary:hover { background: #edf5eb; }
+
+/* Travel illustration */
+.gy-travel-art {
+    min-height: 330px;
+    border-radius: 36px;
+    background: linear-gradient(145deg, #c7f0be, #e4f7f2 55%, #ffdfa9);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+.gy-travel-art:before {
+    content: "";
+    width: 245px;
+    height: 245px;
+    border-radius: 50%;
+    background: #fffdf4;
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 10px 35px #36774712;
+    z-index: -1;
+}
+.gy-travel-art:after {
+    content: "";
+    position: absolute;
+    bottom: -55px;
+    left: -25px;
+    width: 120%;
+    height: 145px;
+    background: #45a95c;
+    border-radius: 50% 50% 0 0;
+    z-index: -1;
+}
+.gy-art-sun { position: absolute; top: 22px; right: 28px; font-size: 48px; }
+.gy-art-plane { position: absolute; top: 38px; left: 26px; font-size: 43px; transform: rotate(-15deg); }
+.gy-art-globe { font-size: 125px; filter: drop-shadow(0 8px 0 #237b4120); }
+.gy-art-pin { position: absolute; right: 24%; top: 42%; font-size: 45px; }
+.gy-art-suitcase { position: absolute; bottom: 28px; left: 22px; font-size: 65px; transform: rotate(-9deg); }
+.gy-art-camera { position: absolute; bottom: 25px; right: 22px; font-size: 54px; transform: rotate(8deg); }
+.gy-art-cloud { position: absolute; top: 92px; right: 24px; font-size: 45px; }
+.gy-art-label {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: var(--gy-dark);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-weight: 900;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px #174d2b20;
+}
+
+/* Feature strip */
+.gy-strip { background: var(--gy-green); color: white; padding: 25px 0; }
+.gy-strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: center; }
+.gy-strip-item { padding: 6px 12px; }
+.gy-strip-item strong { display: block; font-size: 17px; }
+.gy-strip-item span { display: block; font-size: 13px; opacity: .9; margin-top: 4px; }
+
+/* Services */
+.gy-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.gy-service-card {
+    background: white;
+    border: 1px solid #e7ece3;
+    border-radius: 20px;
+    padding: 25px 22px;
+    box-shadow: 0 6px 22px #244c3210;
+    transition: transform .2s, box-shadow .2s;
+}
+.gy-service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px #244c3218; }
+.gy-service-icon {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border-radius: 19px;
+    background: #edf7e9;
+    font-size: 32px;
+    margin-bottom: 19px;
+}
+.gy-service-card:nth-child(even) .gy-service-icon { background: #fff0dc; }
+.gy-service-number {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 900;
+    color: #b96717;
+    background: #fff0dc;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+.gy-service-card h3 { font-size: 19px; color: var(--gy-dark); margin: 13px 0 7px; }
+.gy-service-card p { color: var(--gy-muted); font-size: 14px; margin: 0; }
+
+/* Highlights */
+.gy-highlight-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.gy-highlight {
+    padding: 25px 18px;
+    border-radius: 17px;
+    background: white;
+    border: 1px solid #e9eee6;
+    text-align: center;
+}
+.gy-highlight-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 14px;
+    display: grid;
+    place-items: center;
+    background: #edf5e9;
+    border-radius: 16px;
+    font-size: 27px;
+}
+.gy-highlight h3 { font-size: 17px; margin: 0 0 8px; color: var(--gy-dark); }
+.gy-highlight p { color: var(--gy-muted); font-size: 13px; margin: 0; }
+
+/* Steps */
+.gy-steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 15px; }
+.gy-step { background: white; border: 1px solid #e8ece4; border-radius: 16px; padding: 22px 15px; text-align: center; }
+.gy-step-number {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: var(--gy-orange);
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+}
+.gy-step h3 { color: var(--gy-dark); font-size: 16px; margin: 0 0 8px; }
+.gy-step p { color: var(--gy-muted); font-size: 13px; margin: 0; }
+
+/* Budget */
+.gy-budget {
+    background: linear-gradient(135deg, #174d2b, #32944e);
+    color: white;
+    border-radius: 25px;
+    padding: clamp(25px, 5vw, 48px);
+    display: grid;
+    grid-template-columns: 1fr .85fr;
+    gap: 35px;
+    align-items: center;
+}
+.gy-budget h2 { color: white; font-size: clamp(26px, 3.5vw, 36px); line-height: 1.3; margin: 0 0 16px; }
+.gy-budget p { color: #e4efe2; font-size: 15px; margin: 0 0 14px; }
+.gy-cost-list { background: #ffffff12; border: 1px solid #ffffff28; border-radius: 17px; padding: 20px; }
+.gy-cost-list h3 { font-size: 18px; margin: 0 0 12px; }
+.gy-cost-list ul { margin: 0; padding-left: 20px; color: #edf6eb; font-size: 14px; }
+.gy-cost-list li { margin: 7px 0; }
+.gy-note { background: #fff2dd; border-radius: 12px; padding: 14px 16px; color: #80521c; font-size: 13px; margin-top: 16px; }
+
+/* Closing */
+.gy-closing { text-align: center; padding: 70px 20px; background: #fff8ed; }
+.gy-closing h2 { color: var(--gy-dark); font-size: clamp(29px, 4vw, 42px); margin: 0 0 13px; line-height: 1.3; }
+.gy-closing p { color: var(--gy-muted); max-width: 650px; margin: 0 auto 25px; }
+.gy-tagline { color: var(--gy-orange); font-weight: 900; letter-spacing: .5px; margin-top: 22px; font-size: 15px; }
+
+@media (max-width: 850px) {
+    .gy-hero-grid, .gy-budget { grid-template-columns: 1fr; }
+    .gy-travel-art { min-height: 280px; }
+    .gy-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gy-highlight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gy-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gy-section { padding: 55px 0; }
+}
+@media (max-width: 520px) {
+    .gy-service-grid, .gy-highlight-grid, .gy-steps, .gy-strip-grid { grid-template-columns: 1fr; }
+    .gy-hero { padding: 48px 0; }
+    .gy-hero h2 { font-size: 38px; }
+    .gy-hero-actions { flex-direction: column; }
+    .gy-btn { width: 100%; }
+    .gy-travel-art { min-height: 250px; }
+}
+
+/* ===== Recommended Trip Cards ===== */
+.recommended-trips {
+    background: #fffdf5;
+    padding: 48px 5% 60px;
+}
+
+.recommended-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recommended-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.recommended-heading .eyebrow {
+    color: #e87716;
+    background: #fff0dc;
+}
+
+.recommended-heading h2 {
+    color: #28551d;
+    font-size: clamp(27px, 4vw, 36px);
+    font-weight: 900;
+    margin: 15px 0 10px;
+}
+
+.recommended-heading p {
+    color: #697466;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.recommended-card {
+    background: #fff;
+    border: 1px solid #e8ebdf;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(48, 78, 43, 0.07);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.recommended-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(48, 78, 43, 0.13);
+}
+
+.recommended-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    background: #f2e9d8;
+}
+
+.recommended-content {
+    padding: 20px;
+}
+
+.recommended-badge {
+    display: inline-block;
+    background: #fff0dc;
+    color: #d96b10;
+    border-radius: 20px;
+    padding: 5px 11px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.recommended-code {
+    display: inline-block;
+    margin-left: 5px;
+    color: #777d70;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.recommended-content h3 {
+    color: #28551d;
+    font-size: 21px;
+    font-weight: 800;
+    margin: 14px 0 8px;
+}
+
+.recommended-content p {
+    color: #70776c;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0 0 16px;
+    min-height: 75px;
+}
+
+.recommended-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    color: #52664a;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.recommended-price {
+    color: #e87716;
+    font-size: 19px;
+    font-weight: 900;
+    margin-bottom: 16px;
+}
+
+.recommended-link {
+    display: block;
+    text-align: center;
+    background: #75bd29;
+    color: white;
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 11px;
+    font-size: 14px;
+    font-weight: 800;
+    transition: background .2s;
+}
+
+.recommended-link:hover {
+    background: #4d941e;
+}
+
+@media (max-width: 850px) {
+    .recommended-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .recommended-trips {
+        padding: 35px 18px 45px;
+    }
+
+    .recommended-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recommended-image {
+        height: 210px;
+    }
+
+    .recommended-content p {
+        min-height: 0;
+    }
+}
+
+/* ปุ่มไปสำรวจทริปอื่น ๆ */
+.explore-more {
+    display: table;
+    margin: 28px auto 0;
+    padding: 10px 22px;
+    background: #fff;
+    color: #4d941e;
+    border: 1.5px solid #75bd29;
+    border-radius: 10px;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.explore-more:hover {
+    background: #75bd29;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+</style>
+</head>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menu = document.getElementById('mainMenu');
+    const hamburgerBtn = document.getElementById('menuButton');
+
+    if (menu && hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', function () {
+            const isOpen = menu.classList.toggle('menu-open');
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        });
+    }
+});
+</script>
+
+<body>
+<header>
+    <button class="menu-button" id="menuButton" aria-label="เปิดเมนู">☰</button>
+    <div class="logo">Goyolo <span>Trip!</span></div>
+
+{% if session.get('user_id') %}
+    <span class="user-name">{{ session.get('username') }}</span>
+    <form action="{{ url_for('logout') }}" method="POST">
+        <button type="submit" class="auth-btn">ออกจากระบบ</button>
+    </form>
+{% else %}
+    <a href="{{ url_for('login') }}" class="auth-btn">เข้าสู่ระบบ</a>
+    <a href="{{ url_for('register') }}" class="auth-btn">สมัครสมาชิก</a>
+{% endif %}
+
+    <nav id="mainMenu">
+        {% if session.get('is_admin') %}
+    <a href="{{ url_for('admin') }}">🛠️ Admin Dashboard</a>
+    {% endif %}
+        <a href="/">🏡 หน้าหลัก</a>
+        <a href="/map">🎒 เลือกดูแพ็คเกจ</a>
+        {% if session.get('user_id') %}
+        <a href="{{ url_for('my_trips') }}">🧳 ทริปของฉัน</a>
+    {% endif %}
+    </nav>
+</header>
+
+<main>
+<section class="hero">
+    <span class="eyebrow">✦ LET'S GO EXPLORE!</span>
+
+    <h1>อยากออกไปเที่ยว<br>
+        <span>ก็เลือกโปรแกรมที่ใช่!</span>
+    </h1>
+
+    <p class="intro">
+        ค้นพบโปรแกรมท่องเที่ยวที่คัดสรรไว้ให้แล้วในกรุงเทพฯ และจังหวัดใกล้เคียง
+        ไม่ว่าจะเป็นสายคาเฟ่ สายกิจกรรม หรือสายชิล
+        ก็เลือกโปรแกรมที่ตรงใจ แล้วเตรียมตัวออกไปสร้างความทรงจำดี ๆ ได้เลย
+    </p>
+
+    
+<div class="gallery" id="gallery">
+
+    <div class="slide active">
+        <img
+            src="{{ url_for('static', filename='uploads/Bangkok_slide.jpg') }}"
+            alt="บรรยากาศการท่องเที่ยวกรุงเทพฯ">
+            <div class="caption">ให้วันว่างๆ มีความหมายยิ่งกว่า 🧳</div>
+    </div>
+
+    <div class="slide">
+        <img
+            src="{{ url_for('static', filename='uploads/Nakhonpathom_slide.jpg') }}"
+            alt="บรรยากาศท่องเที่ยวจังหวัดนครปฐม">
+        <div class="caption">เลือกโปรแกรมที่ใช่ แล้วออกไปเที่ยวกัน 📸</div>
+    </div>
+
+    <div class="slide">
+        <img
+            src="{{ url_for('static', filename='uploads/Samutprakarn_slide.jpg') }}"
+            alt="บรรยากาศท่องเที่ยวจังหวัดสมุทรปราการ">
+        <div class="caption">มีโปรแกรมพร้อมให้เลือก 🌿</div>
+    </div>
+
+    <div class="slide-controls">
+        <button type="button" id="prevSlide" aria-label="ภาพก่อนหน้า">‹</button>
+        <button type="button" id="nextSlide" aria-label="ภาพถัดไป">›</button>
+    </div>
+
+</div>
+
+<div class="dots" id="dots"></div>
+
+</section>
+
+
+<!-- ทริปแนะนำจาก GoYolo -->
+<section class="recommended-trips">
+    <div class="recommended-inner">
+
+        <div class="recommended-heading">
+            <span class="eyebrow">✦ GOYOLO'S PICKS</span>
+            <h2>ทริปแนะนำจาก GoYolo 🧳</h2>
+            <p>
+                มีวันว่างแค่วันเดียวก็เที่ยวได้!
+                เลือกโปรแกรมที่ใช่ แล้วไปสร้างความทรงจำดี ๆ กัน
+            </p>
+        </div>
+
+        <div class="recommended-grid">
+
+            <!-- Bangkok -->
+            <article class="recommended-card">
+                <img
+                    class="recommended-image"
+                    src="{{ url_for('static', filename='uploads/Bangkok_slide.jpg') }}"
+                    alt="บรรยากาศท่องเที่ยวกรุงเทพมหานคร"
+                    loading="lazy"
+                >
+
+                <div class="recommended-content">
+                    <span class="recommended-badge">✦ ทริปแนะนำ</span>
+                    <span class="recommended-code">BKK-01</span>
+
+                    <h3>เสน่ห์กรุงเก่าและวิถีริมเจ้าพระยา</h3>
+
+                    <p>
+                        สัมผัสเสน่ห์กรุงเทพฯ ชมบรรยากาศริมแม่น้ำ
+                        และออกสำรวจเมืองหลวงในทริปวันเดียว
+                    </p>
+
+                    <div class="recommended-meta">
+                        <span>📍 กรุงเทพฯ</span>
+                        <span>🕒 1 วัน</span>
+                    </div>
+
+                    <div class="recommended-price">1,500 บาท/คน</div>
+
+                    <a class="recommended-link" href="/bangkok">
+                        ดูรายละเอียดทริป →
+                    </a>
+                </div>
+            </article>
+
+            <!-- Nonthaburi -->
+            <article class="recommended-card">
+                <img
+                    class="recommended-image"
+                    src="https://img.cnt.traveloka.com/tvlk/blog/2019/02/%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B9%80%E0%B8%81%E0%B8%A3%E0%B9%87%E0%B8%9401-800x534.jpg?tr=q-70,c-at_max,w-1000,h-600"
+                    alt="บรรยากาศเกาะเกร็ด จังหวัดนนทบุรี"
+                    loading="lazy"
+                >
+
+                <div class="recommended-content">
+                    <span class="recommended-badge">✦ ทริปแนะนำ</span>
+                    <span class="recommended-code">NTB-01</span>
+
+                    <h3>เที่ยวชุมชนเกาะเกร็ด</h3>
+
+                    <p>
+                        เดินชมวิถีชุมชนริมน้ำ สำรวจงานเครื่องปั้นดินเผา
+                        และแวะชิมของอร่อยในบรรยากาศสบาย ๆ
+                    </p>
+
+                    <div class="recommended-meta">
+                        <span>📍 นนทบุรี</span>
+                        <span>🕒 1 วัน</span>
+                    </div>
+
+                    <div class="recommended-price">1,200 บาท/คน</div>
+
+                    <a class="recommended-link" href="/nonthaburi">
+                        ดูรายละเอียดทริป →
+                    </a>
+                </div>
+            </article>
+
+            <!-- Pathum Thani -->
+            <article class="recommended-card">
+                <img
+                    class="recommended-image"
+                    src="https://checkinchill.com/storage/content/ad503bbb-d6dd-481f-8008-9c898d2eae49.webp"
+                    alt="บรรยากาศกิจกรรมท่องเที่ยวปทุมธานี"
+                    loading="lazy"
+                >
+
+                <div class="recommended-content">
+                    <span class="recommended-badge">✦ ทริปแนะนำ</span>
+                    <span class="recommended-code">PTT-01</span>
+
+                    <h3>วันสนุก ๆ ในปทุมธานี</h3>
+
+                    <p>
+                        เปลี่ยนวันว่างให้เป็นวันแห่งความสนุก
+                        เหมาะกับการออกไปทำกิจกรรมและเที่ยวกับเพื่อน
+                    </p>
+
+                    <div class="recommended-meta">
+                        <span>📍 ปทุมธานี</span>
+                        <span>🕒 1 วัน</span>
+                    </div>
+
+                    <div class="recommended-price">1,300 บาท/คน</div>
+
+                    <a class="recommended-link" href="/pathum_thani">
+                        ดูรายละเอียดทริป →
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+    
+</section>
+
+<section class="info">
+    <div class="info-inner">
+        <span class="eyebrow">YOUR NEXT ADVENTURE</span>
+        <h2 class="section-title">ค้นพบโปรแกรมเที่ยวที่ใช่สำหรับคุณ!</h2>
+
+        <p class="intro">
+            GoYolo Trip รวบรวมโปรแกรมท่องเที่ยวที่เตรียมไว้ให้เลือก
+            ครอบคลุมกรุงเทพฯ และจังหวัดใกล้เคียง
+            พร้อมรายละเอียดการเดินทางและค่าใช้จ่าย
+            ช่วยให้คุณเลือกทริปที่สนใจและเตรียมตัวเดินทางได้สะดวกยิ่งขึ้น
+        </p>
+
+        <div class="values">
+            <article class="value">
+                <h3>You Come First</h3>
+                <p>เลือกโปรแกรมที่ตรงกับความสนใจและช่วงเวลาของคุณ</p>
+            </article>
+
+            <article class="value">
+                <h3>Ready-Made Adventures</h3>
+                <p>มีโปรแกรมเที่ยวเตรียมไว้ให้เลือก ไม่ต้องจัดแผนเอง</p>
+            </article>
+
+            <article class="value">
+                <h3>Clear &amp; Trustworthy</h3>
+                <p>ตรวจสอบรายละเอียดโปรแกรมและค่าใช้จ่ายก่อนจอง</p>
+            </article>
+
+            <article class="value">
+                <h3>Make It Memorable</h3>
+                <p>เปลี่ยนวันว่างให้กลายเป็นความทรงจำดี ๆ</p>
+            </article>
+        </div>
+    </div>
+
+        <!-- ปุ่มสำรวจทริปเพิ่มเติม -->
+        <a href="{{ url_for('map') }}" class="explore-more">
+    ไปสำรวจทริปอื่น ๆ →
+</a>
+</section>
+
+<div class="gy-intro">
+
+    <!-- 1. HERO -->
+    <section class="gy-hero">
+        <div class="gy-wrap gy-hero-grid">
+            <div>
+                <span class="gy-eyebrow">YOUR NEXT ADVENTURE STARTS HERE</span>
+                <h2>เลือกโปรแกรมง่าย<br>เตรียมตัวเที่ยว <span>ได้สบาย</span></h2>
+                <p>
+                    GoYolo Trip รวบรวมโปรแกรมท่องเที่ยวที่จัดเตรียมไว้แล้ว
+                    ในกรุงเทพฯ และจังหวัดใกล้เคียง ให้คุณเลือกจากโปรแกรมที่มี
+                    ตรวจสอบรายละเอียดการเดินทางและค่าใช้จ่าย
+                    ก่อนกรอกข้อมูลและดำเนินการจองได้ในขั้นตอนเดียว
+                </p>
+                <div class="gy-hero-actions">
+                    <a class="gy-btn gy-btn-primary" href="/map">เลือกโปรแกรมเที่ยว ↗</a>
+                    <a class="gy-btn gy-btn-secondary" href="#gy-services">รู้จัก GoYolo Trip</a>
+                </div>
+            </div>
+
+            <div class="gy-travel-art" aria-label="ภาพประกอบการท่องเที่ยว">
+                <span class="gy-art-sun">☀️</span>
+                <span class="gy-art-plane">✈️</span>
+                <span class="gy-art-cloud">☁️</span>
+                <span class="gy-art-globe">🌍</span>
+                <span class="gy-art-pin">📍</span>
+                <span class="gy-art-suitcase">🧳</span>
+                <span class="gy-art-camera">📸</span>
+                <span class="gy-art-label">LET'S GOYOLO! 🌴</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. แถบจุดขาย -->
+    <section class="gy-strip">
+        <div class="gy-wrap gy-strip-grid">
+            <div class="gy-strip-item">
+                <strong>✦ มีโปรแกรมให้เลือก</strong>
+                <span>เลือกเที่ยวจากโปรแกรมที่เตรียมไว้แล้ว</span>
+            </div>
+            <div class="gy-strip-item">
+                <strong>✦ ตรวจสอบราคาได้ก่อน</strong>
+                <span>ดูรายละเอียดและค่าใช้จ่ายของโปรแกรม</span>
+            </div>
+            <div class="gy-strip-item">
+                <strong>✦ จองได้เป็นขั้นตอน</strong>
+                <span>กรอกข้อมูลและส่งหลักฐานการชำระเงิน</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. จุดเด่นของบริการ -->
+    <section class="gy-section" id="gy-services">
+        <div class="gy-wrap">
+            <div class="gy-center">
+                <span class="gy-eyebrow">EXPLORE OUR PROGRAMS</span>
+                <h2 class="gy-heading">ค้นพบโปรแกรมเที่ยวที่น่าสนใจ</h2>
+                <p class="gy-description">
+                    เลือกจังหวัดที่อยากไป แล้วเลือกหนึ่งในโปรแกรมเที่ยวที่เตรียมไว้
+                    ตรวจสอบรายละเอียดก่อนตัดสินใจจองได้อย่างสะดวก
+                </p>
+            </div>
+
+            <div class="gy-service-grid">
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 01</span>
+                    <h3>เลือกจังหวัดที่อยากไป</h3>
+                    <p>สำรวจจังหวัดท่องเที่ยวในกรุงเทพฯ และจังหวัดใกล้เคียงจากหน้า Explore</p>
+                </article>
+
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 02</span>
+                    <h3>เลือกโปรแกรม</h3>
+                    <p>แต่ละจังหวัดมีโปรแกรมเที่ยวที่เตรียมไว้ให้เลือกตามความสนใจ</p>
+                </article>
+
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 03</span>
+                    <h3>ดูรายละเอียดก่อนจอง</h3>
+                    <p>ตรวจสอบรายละเอียดโปรแกรมและค่าใช้จ่ายก่อนตัดสินใจเลือกเดินทาง</p>
+                </article>
+
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 04</span>
+                    <h3>กรอกข้อมูลการจอง</h3>
+                    <p>กรอกข้อมูลพื้นฐานที่จำเป็นสำหรับการจองโปรแกรมเที่ยวที่เลือก</p>
+                </article>
+
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 05</span>
+                    <h3>ส่งหลักฐานการชำระเงิน</h3>
+                    <p>ดำเนินการชำระเงินและอัปโหลดสลิปเพื่อให้ตรวจสอบตามขั้นตอน</p>
+                </article>
+
+                <article class="gy-service-card">
+                    <span class="gy-service-number">STEP 06</span>
+                    <h3>ติดตามทริปของฉัน</h3>
+                    <p>เมื่อการชำระเงินได้รับการตรวจสอบแล้ว สามารถดูข้อมูลทริปที่จองไว้ได้ที่หน้าทริปของฉัน</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. จุดเด่น -->
+    <section class="gy-section gy-soft">
+        <div class="gy-wrap">
+            <div class="gy-center">
+                <span class="gy-eyebrow">WHY GOYOLO TRIP?</span>
+                <h2 class="gy-heading">ทำไมต้องเลือก GoYolo Trip?</h2>
+                <p class="gy-description">
+                    ไม่ต้องเสียเวลาจัดตารางเที่ยวเอง
+                    เลือกโปรแกรมที่เตรียมไว้ ตรวจสอบข้อมูล แล้วดำเนินการจองตามขั้นตอน
+                </p>
+            </div>
+
+            <div class="gy-highlight-grid">
+                <article class="gy-highlight">
+                    <div class="gy-highlight-icon">🗺️</div>
+                    <h3>Simple</h3>
+                    <p>ค้นหาและเลือกโปรแกรมเที่ยวได้จากหน้า Explore</p>
+                </article>
+
+                <article class="gy-highlight">
+                    <div class="gy-highlight-icon">💰</div>
+                    <h3>Clear Pricing</h3>
+                    <p>ตรวจสอบค่าใช้จ่ายของโปรแกรมก่อนเริ่มจอง</p>
+                </article>
+
+                <article class="gy-highlight">
+                    <div class="gy-highlight-icon">🧾</div>
+                    <h3>Easy Booking</h3>
+                    <p>กรอกข้อมูลและส่งหลักฐานการชำระเงินตามขั้นตอน</p>
+                </article>
+
+                <article class="gy-highlight">
+                    <div class="gy-highlight-icon">🎒</div>
+                    <h3>Ready to Go</h3>
+                    <p>เลือกโปรแกรมที่มีอยู่ แล้วเตรียมตัวออกเดินทางได้เลย</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. วิธีใช้งาน -->
+    <section class="gy-section">
+        <div class="gy-wrap">
+            <div class="gy-center">
+                <span class="gy-eyebrow">HOW IT WORKS</span>
+                <h2 class="gy-heading">จองโปรแกรมเที่ยวง่าย ๆ 5 ขั้นตอน</h2>
+                <p class="gy-description">จากเลือกโปรแกรมที่สนใจ สู่การเตรียมตัวออกเดินทาง</p>
+            </div>
+
+            <div class="gy-steps">
+                <article class="gy-step">
+                    <div class="gy-step-number">1</div>
+                    <h3>Explore</h3>
+                    <p>เลือกจังหวัดที่ต้องการไปเที่ยว</p>
+                </article>
+
+                <article class="gy-step">
+                    <div class="gy-step-number">2</div>
+                    <h3>Select</h3>
+                    <p>เลือกหนึ่งในโปรแกรมที่เตรียมไว้</p>
+                </article>
+
+                <article class="gy-step">
+                    <div class="gy-step-number">3</div>
+                    <h3>Book</h3>
+                    <p>กรอกข้อมูลพื้นฐานสำหรับการจอง</p>
+                </article>
+
+                <article class="gy-step">
+                    <div class="gy-step-number">4</div>
+                    <h3>Payment</h3>
+                    <p>ชำระเงินและส่งหลักฐานเพื่อตรวจสอบ</p>
+                </article>
+
+                <article class="gy-step">
+                    <div class="gy-step-number">5</div>
+                    <h3>Enjoy!</h3>
+                    <p>ตรวจสอบสถานะการจองและเตรียมตัวเดินทาง</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ค่าใช้จ่าย -->
+    <section class="gy-section gy-soft">
+        <div class="gy-wrap">
+            <div class="gy-budget">
+                <div>
+                    <span class="gy-eyebrow">PLAN YOUR TRIP WITH CONFIDENCE</span>
+                    <h2>เลือกโปรแกรมที่ใช่<br>ตรวจสอบราคาก่อนจอง</h2>
+                    <p>
+                        แต่ละโปรแกรมมีรายละเอียดและค่าใช้จ่ายที่กำหนดไว้
+                        คุณสามารถตรวจสอบข้อมูลของโปรแกรมที่สนใจ
+                        ก่อนกรอกข้อมูลและดำเนินการจอง
+                    </p>
+                    <p>
+                        เมื่อเลือกโปรแกรมเรียบร้อยแล้ว
+                        ให้ทำตามขั้นตอนการจองและชำระเงิน
+                        จากนั้นส่งหลักฐานการชำระเงินเพื่อให้ตรวจสอบ
+                    </p>
+                </div>
+
+                <div>
+                    <div class="gy-cost-list">
+                        <h3>ก่อนจองควรตรวจสอบ</h3>
+                        <ul>
+                            <li>จังหวัดและโปรแกรมที่เลือก</li>
+                            <li>รายละเอียดกำหนดการเดินทาง</li>
+                            <li>ค่าใช้จ่ายของโปรแกรม</li>
+                            <li>ข้อมูลที่ต้องใช้ในการจอง</li>
+                            <li>ขั้นตอนการชำระเงินและส่งสลิป</li>
+                        </ul>
+                    </div>
+
+                    <div class="gy-note">
+                        <strong>อย่าลืมตรวจสอบรายละเอียดให้ครบ</strong><br>
+                        อ่านข้อมูลโปรแกรมและค่าใช้จ่ายให้เรียบร้อยก่อนยืนยันการจอง
+                        และเก็บข้อมูลการชำระเงินไว้สำหรับใช้อ้างอิง
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. ปิดท้าย -->
+    <section class="gy-closing">
+        <div class="gy-wrap">
+            <span class="gy-eyebrow">YOUR NEXT ADVENTURE</span>
+            <h2>พร้อมเลือกโปรแกรมเที่ยวครั้งต่อไปหรือยัง?</h2>
+            <p>
+                ค้นหาจังหวัดที่สนใจ เลือกโปรแกรมที่เตรียมไว้
+                แล้วทำตามขั้นตอนการจองได้ง่าย ๆ
+                ให้ GoYolo Trip เป็นจุดเริ่มต้นของการเดินทางครั้งใหม่ของคุณ
+            </p>
+            <a href="/map" class="gy-btn gy-btn-primary">เลือกโปรแกรมเที่ยวเลย ↗</a>
+            <div class="gy-tagline">GoYolo Trip — Pick Your Trip, Enjoy the Journey.</div>
+        </div>
+    </section>
+
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const gallery = document.getElementById("gallery");
+    if (!gallery) return;
+
+    const slides = Array.from(gallery.querySelectorAll(".slide"));
+    const dotsContainer = document.getElementById("dots");
+    const prevButton = document.getElementById("prevSlide");
+    const nextButton = document.getElementById("nextSlide");
+
+    if (!slides.length || !dotsContainer || !prevButton || !nextButton) return;
+
+    let currentIndex = 0;
+    let autoPlay;
+
+    dotsContainer.innerHTML = "";
+
+    const dots = slides.map(function (_, index) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.setAttribute("aria-label", "ไปยังภาพที่ " + (index + 1));
+
+        dot.addEventListener("click", function () {
+            showSlide(index);
+            restartAutoPlay();
+        });
+
+        dotsContainer.appendChild(dot);
+        return dot;
+    });
+
+    function showSlide(index) {
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides.forEach(function (slide, i) {
+            slide.classList.toggle("active", i === currentIndex);
+        });
+
+        dots.forEach(function (dot, i) {
+            dot.classList.toggle("active", i === currentIndex);
+        });
+    }
+
+    function restartAutoPlay() {
+        clearInterval(autoPlay);
+        autoPlay = setInterval(function () {
+            showSlide(currentIndex + 1);
+        }, 4000);
+    }
+
+    prevButton.addEventListener("click", function () {
+        showSlide(currentIndex - 1);
+        restartAutoPlay();
+    });
+
+    nextButton.addEventListener("click", function () {
+        showSlide(currentIndex + 1);
+        restartAutoPlay();
+    });
+
+    showSlide(0);
+    restartAutoPlay();
+});
+</script>
+</body>
+</html>
+
+
+</main>
+</body>
+</html>
+```

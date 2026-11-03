@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ทริปของฉัน | GoYolo Trip</title>
+
+    <style>
+        @font-face {
+            font-family: "Anuphan";
+            src: url("/static/uploads/fonts/Anuphan-VariableFont_wght.ttf")
+                 format("truetype");
+            font-weight: 100 900;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan", sans-serif;
+            background: #fffdf5;
+            color: #28551d;
+        }
+
+        header {
+            background: white;
+            padding: 20px 5%;
+            box-shadow: 0 3px 15px #24451a12;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            color: #75bd29;
+        }
+
+        .logo span { color: #ff792d; }
+
+        .back {
+            color: #258044;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        main {
+            width: min(1000px, 92%);
+            margin: 45px auto;
+        }
+
+        h1 { margin-bottom: 8px; }
+
+        .subtitle {
+            color: #68766b;
+            margin-bottom: 28px;
+        }
+
+        .trip {
+            background: white;
+            border: 1px solid #e5eee4;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 18px #24451a0b;
+        }
+
+        .trip h2 {
+            margin: 0 0 12px;
+            color: #258044;
+        }
+
+        .trip p {
+            line-height: 1.7;
+            margin: 7px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            display: inline-block;
+            margin: 5px 0 14px;
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #fff0dc;
+            color: #a95b12;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .total {
+            color: #e87716;
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .empty {
+            text-align: center;
+            background: white;
+            border: 1px dashed #b8cbb8;
+            border-radius: 20px;
+            padding: 55px 20px;
+        }
+
+        .empty .icon { font-size: 48px; }
+
+        .button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 20px;
+            background: #ff792d;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 600px) {
+            main { margin: 28px auto; }
+            .trip { padding: 18px; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="logo">Goyolo <span>Trip!</span></div>
+    <a class="back" href="/">← กลับหน้าแรก</a>
+</header>
+
+<main>
+    <h1>🎒 ทริปของฉัน</h1>
+    <p class="subtitle">
+        รวมข้อมูลโปรแกรมที่คุณจองไว้ เพื่อให้ตรวจสอบรายละเอียดก่อนเดินทาง
+    </p>
+
+    {% if trips %}
+        {% for trip in trips %}
+        <article class="trip">
+            <h2>{{ trip["tour_name"] }}</h2>
+
+            <span class="status">{{ trip["status"] }}</span>
+
+            <p><strong>รหัสการจอง:</strong> GY-{{ "%05d"|format(trip["id"]) }}</p>
+            <p><strong>จังหวัด:</strong> {{ trip["province"] }}</p>
+            <p><strong>ชื่อผู้จอง:</strong> {{ trip["name"] }}</p>
+            <p><strong>เบอร์โทรศัพท์:</strong> {{ trip["phone"] }}</p>
+            <p><strong>จำนวนผู้เดินทาง:</strong> {{ trip["travelers"] }} คน</p>
+            <p><strong>วันเดินทาง:</strong> {{ trip["start_date"] }}</p>
+
+            {% if trip["end_date"] %}
+            <p><strong>วันสิ้นสุดทริป:</strong> {{ trip["end_date"] }}</p>
+            {% endif %}
+
+            {% if trip["hotel_name"] %}
+            <p><strong>ที่พัก:</strong> {{ trip["hotel_name"] }}</p>
+            <p><strong>จำนวนคืน:</strong> {{ trip["nights"] }} คืน</p>
+            <p><strong>ห้องเดี่ยว:</strong> {{ trip["single_rooms"] }} ห้อง</p>
+            <p><strong>ห้องคู่:</strong> {{ trip["double_rooms"] }} ห้อง</p>
+            {% endif %}
+
+            <p><strong>ค่าโปรแกรม:</strong>
+                {{ "{:,.2f}".format(trip["trip_total"]) }} บาท
+            </p>
+            <p><strongค่าที่พัก:</strong>
+                {{ "{:,.2f}".format(trip["hotel_total"]) }} บาท
+            </p>
+
+            <p class="total">
+                ยอดรวม {{ "{:,.2f}".format(trip["total"]) }} บาท
+            </p>
+
+            {% if trip["slip_filename"] %}
+            <p>✓ ส่งหลักฐานการชำระเงินแล้ว</p>
+            {% endif %}
+        </article>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <div class="icon">🧳</div>
+            <h2>คุณยังไม่มีทริปที่จองไว้</h2>
+            <p>เลือกโปรแกรมที่สนใจ แล้วกลับมาตรวจสอบทริปของคุณได้ที่นี่</p>
+            <a class="button" href="/map">เลือกโปรแกรมเที่ยว</a>
+        </div>
+    {% endif %}
+</main>
+</body>
+</html>

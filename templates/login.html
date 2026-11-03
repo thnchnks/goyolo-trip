@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ | GoYolo Trip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan",sans-serif;
+            background: #f5f8f2;
+            color: #263b2b;
+        }
+
+        header {
+            padding: 18px 7%;
+            background: white;
+            border-bottom: 1px solid #e5ebdf;
+        }
+
+        
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #75bd29;
+        }
+
+        .logo span {
+            color: #f28a28;
+        }
+
+    
+        main {
+            width: min(440px, 92%);
+            margin: 55px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 28px #263b2b0d;
+        }
+
+        h1 { margin-top: 0; color: #347447; }
+
+        p { color: #718071; line-height: 1.6; }
+
+        .form-group { margin: 20px 0; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d7e1d5;
+            border-radius: 10px;
+            font: inherit;
+        }
+
+        input:focus {
+            outline: 2px solid #b9d9bd;
+            border-color: #347447;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: #347447;
+            color: white;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .error {
+            padding: 12px;
+            background: #fff0ed;
+            color: #a52d22;
+            border-radius: 10px;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a { color: #347447; }
+
+        .brand {
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: -0.7px;
+    color: #203126;
+    text-decoration: none;
+}
+
+.brand span {
+    color: #285b36;
+}
+
+.brand b {
+    color: #ff873d;
+}
+
+    </style>
+</head>
+
+<body>
+    <header>
+
+<a class="brand" href="/">
+    <span>Go</span><b>Yolo</b> Trip
+</a>    </header>
+
+    <main>
+        <section class="card">
+            <h1>ยินดีต้อนรับกลับมา 🌿</h1>
+            <p>เข้าสู่ระบบเพื่อใช้งาน GoYolo Trip</p>
+
+            {% if error %}
+                <div class="error" role="alert">{{ error }}</div>
+            {% endif %}
+
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-group">
+                    <label for="login_id">ชื่อผู้ใช้หรืออีเมล</label>
+                    <input
+                        type="text"
+                        id="login_id"
+                        name="login_id"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit">เข้าสู่ระบบ</button>
+            </form>
+
+            <div class="links">
+                <p>ยังไม่มีบัญชี? <a href="{{ url_for('register') }}">สมัครสมาชิก</a></p>
+                <a href="/">กลับหน้าหลัก</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

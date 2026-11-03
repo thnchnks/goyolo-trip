@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก | GoYolo Trip</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan",sans-serif;
+            background: #f5f8f2;
+            color: #263b2b;
+        }
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5ebdf;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #347447;
+        }
+
+        header a, .back-link {
+            color: #347447;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            width: min(560px, 92%);
+            margin: 35px auto;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .intro h1 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .intro p {
+            color: #718071;
+            line-height: 1.7;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 28px #263b2b0d;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d7e1d5;
+            border-radius: 10px;
+            font-family: "Anuphan",sans-serif;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #b9d9bd;
+            border-color: #347447;
+        }
+
+        .hint {
+            display: block;
+            margin-top: 5px;
+            color: #788578;
+            font-size: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #347447;
+            color: white;
+            font-family: "Anuphan",sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover { background: #285d38; }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        .error {
+            background: #fff0ed;
+            color: #a52d22;
+        }
+
+        .success {
+            background: #edf8ed;
+            color: #286438;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #788578;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 22px 18px; }
+            .intro h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">GoYolo Trip</div>
+        <a href="/">หน้าหลัก</a>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>สร้างบัญชีผู้ใช้ 🌿</h1>
+            <p>สมัครสมาชิกเพื่อเริ่มต้นการเดินทางในแบบของคุณ</p>
+        </section>
+
+        <section class="card">
+
+            {% if error %}
+                <div class="message error" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            {% if success %}
+                <div class="message success" role="status">
+                    {{ success }}
+                </div>
+                <a class="back-link" href="/"></a>
+            {% else %}
+
+            <form action="{{ url_for('register') }}" method="POST">
+                <div class="form-group">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        minlength="3"
+                        maxlength="30"
+                        pattern="[A-Za-z0-9_.-]+"
+                        autocomplete="username"
+                        placeholder="ตั้งชื่อผู้ใช้เป็นภาษาอังกฤษ"
+                        required
+                    >
+                    <span class="hint">ใช้ตัวอักษรอังกฤษ ตัวเลข _ . หรือ -</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">อีเมล</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        maxlength="254"
+                        autocomplete="email"
+                        placeholder="example@email.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="full_name">ชื่อ-นามสกุล</label>
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        maxlength="100"
+                        autocomplete="name"
+                        placeholder="กรอกชื่อและนามสกุล"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">เบอร์โทรศัพท์</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        maxlength="30"
+                        autocomplete="tel"
+                        placeholder="กรอกเบอร์โทรศัพท์"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        placeholder="อย่างน้อย 8 ตัวอักษร"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        placeholder="กรอกรหัสผ่านอีกครั้ง"
+                        required
+                    >
+                </div>
+
+                <button type="submit">สมัครสมาชิก</button>
+            </form>
+
+            {% endif %}
+
+            <a class="back-link" href="/"></a>
+        </section>
+    </main>
+
+    <footer>
+        GoYolo Trip — วางแผนการเดินทางในแบบของคุณ
+    </footer>
+</body>
+</html>

@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงิน | GoYolo Trip</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Anuphan",sans-serif;
+            background: #f5f8ef;
+            color: #203126;
+        }
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            border-bottom: 1px solid #e7eadf;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 900;
+            color: #285b36;
+            text-decoration: none;
+        }
+
+        .brand span { color: #ff873d; }
+
+        main {
+            max-width: 650px;
+            margin: 35px auto;
+            padding: 0 16px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 12px 34px rgba(33,67,43,.09);
+            text-align: center;
+        }
+
+        h1 { margin-top: 0; }
+
+        .amount {
+            background: #f0f8e5;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .amount-label {
+            color: #526452;
+            font-size: 16px;
+        }
+
+        .amount-value {
+            color: #285b36;
+            font-size: 34px;
+            font-weight: 900;
+            margin-top: 8px;
+        }
+
+        .qr-frame {
+            width: 260px;
+            height: 260px;
+            max-width: 100%;
+            margin: 22px auto;
+            border: 2px dashed #a6b69f;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: #fafcf8;
+            color: #71806f;
+        }
+
+        .qr-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-caption {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .details {
+            text-align: left;
+            border-top: 1px solid #e7eadf;
+            border-bottom: 1px solid #e7eadf;
+            padding: 14px 0;
+            margin: 22px 0;
+        }
+
+        .details p {
+            margin: 9px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .upload-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin: 26px 0 12px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d8dfd2;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px;
+            border: 0;
+            border-radius: 10px;
+            background: #ff873d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { background: #ee762c; }
+
+        .error, .success {
+            padding: 12px;
+            border-radius: 9px;
+            margin: 15px 0;
+        }
+
+        .error {
+            background: #fff0ee;
+            color: #a32920;
+        }
+
+        .success {
+            background: #f0f8e5;
+            color: #285b36;
+        }
+
+        .note {
+            color: #68756a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 18px;
+            color: #285b36;
+            text-decoration: none;
+        }
+
+        @media (max-width: 520px) {
+            .panel { padding: 20px; }
+            .amount-value { font-size: 28px; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a class="brand" href="/"><span>Go</span>Yolo Trip</a>
+</header>
+
+<main>
+    <section class="panel">
+        <h1>ชำระเงิน</h1>
+        <p>ตรวจสอบยอดเงินก่อนชำระเงินสำหรับทริปของคุณ</p>
+
+        <div class="amount">
+            <div class="amount-label">ยอดเงินที่ต้องชำระทั้งหมด</div>
+            <div class="amount-value">
+                {{ "{:,.0f}".format(booking.total|float) }} บาท
+            </div>
+        </div>
+
+        <h3>สแกน QR Code เพื่อชำระเงิน</h3>
+
+        <div class="qr-frame">
+            <img src="{{ url_for('static', filename='uploads/QR.jpg') }}"
+                alt="QR Code สำหรับชำระเงิน">
+        </div>
+
+        <div class="details">
+            <p><strong>รหัสทริป:</strong> {{ booking.code }}</p>
+            <p><strong>จังหวัด:</strong> {{ booking.province }}</p>
+            <p><strong>แพ็กเกจ:</strong> {{ booking.tour_name }}</p>
+            <p><strong>ชื่อผู้จอง:</strong> {{ booking.name }}</p>
+            <p><strong>จำนวนผู้เดินทาง:</strong> {{ booking.travelers }} คน</p>
+            <p><strong>วันเดินทาง:</strong> {{ booking.start_date }} ถึง {{ booking.end_date }}</p>
+            {% if booking.hotel_name %}
+            <p><strong>ที่พัก:</strong> {{ booking.hotel_name }}</p>
+            <p><strong>จำนวนคืน:</strong> {{ booking.nights }} คืน</p>
+            {% endif %}
+        </div>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if success %}
+            <div class="success">{{ success }}</div>
+        {% else %}
+            <div class="upload-title">
+                ชำระแล้วใช่ไหม โปรดอัพโหลดสลิปที่นี่
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('payment') }}"
+                  enctype="multipart/form-data">
+
+                <input
+                    type="file"
+                    name="slip"
+                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    required
+                >
+
+                <p class="note">
+                    รองรับไฟล์ JPG, PNG และ WebP
+                </p>
+
+                <button type="submit">ส่งสลิปการชำระเงิน</button>
+            </form>
+        {% endif %}
+
+        <a class="back" href="{{ url_for('home') }}">กลับหน้าแรก</a>
+    </section>
+</main>
+</body>
+</html>
